@@ -1,0 +1,19 @@
+[Unit]
+Description=Network namespaces and xray0 policy routing
+After=network.target xray.service
+Wants=xray.service
+PartOf=xray.service
+StartLimitBurst=5
+StartLimitIntervalSec=30
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+Environment=NETNS_COUNT=3
+TimeoutStartSec=90
+TimeoutStopSec=60
+ExecStart=/usr/bin/python3 /usr/local/bin/scripts/netns.py start
+ExecStop=/usr/bin/python3 /usr/local/bin/scripts/netns.py stop
+
+[Install]
+WantedBy=multi-user.target
