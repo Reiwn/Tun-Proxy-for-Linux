@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-"""Create netns/veth and route the xray netns into the host xray0 TUN."""
 
 import os
 import sys
@@ -125,7 +124,6 @@ def start():
              "-p", "udp", "--dport", "53", "-j", "ACCEPT"],
         )
 
-        # DNS is netns-local: redirect 127.0.0.1:53 to SmartDNS on the host
         # veth address, and SNAT it to this netns's veth address.
         run(
             f"ip netns exec {netns} iptables -t nat -A OUTPUT "
